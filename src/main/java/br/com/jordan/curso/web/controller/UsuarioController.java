@@ -31,7 +31,7 @@ public class UsuarioController {
         if (nome == null) {
             return new ModelAndView("redirect:/usuario/todos");
         }
-        return new ModelAndView("/user/list", "usuarios", dao.getByNome(nome));
+        return new ModelAndView("list.html", "usuarios", dao.getByNome(nome));
     }
 
     @GetMapping(value = "/sexo")
@@ -40,24 +40,24 @@ public class UsuarioController {
         if (sexo == null) {
             return new ModelAndView("redirect:/usuario/todos");
         }
-        return new ModelAndView("/user/list", "usuarios", dao.getBySexo(sexo));
+        return new ModelAndView("list.html", "usuarios", dao.getBySexo(sexo));
     }
 
     @RequestMapping(value = "/todos", method = RequestMethod.GET)
     public ModelAndView listaTodos(ModelMap model) {
         model.addAttribute("usuarios", dao.getTodos());
-        return new ModelAndView("user/list", model);
+        return new ModelAndView("list.html", model);
     }
 
     @GetMapping("/cadastro")
     public String cadastro(@ModelAttribute("usuario")Usuario usuario, ModelMap model) {
-        return "/user/add";
+        return "add.html";
     }
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute("usuario")Usuario usuario, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return "/user/add";
+            return "add.html";
         }
         dao.salvar(usuario);
         attr.addFlashAttribute("message", "Usúario salvo com sucesso");
@@ -68,14 +68,14 @@ public class UsuarioController {
     public ModelAndView preUpdate(@PathVariable("id") Long id, ModelMap model) {
         Usuario usuario = dao.getId(id);
         model.addAttribute("usuario", usuario);
-        return new ModelAndView("/user/add", model);
+        return new ModelAndView("add.html", model);
     }
 
     @PostMapping("/update")
     public ModelAndView update(@Valid @ModelAttribute("usuario") Usuario usuario,BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
-            new ModelAndView("/user/add");
+            new ModelAndView("add.html");
         }
 
         dao.editar(usuario);
