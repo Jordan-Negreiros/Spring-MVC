@@ -20,6 +20,20 @@ public class UsuarioController {
     @Autowired
     private UsuarioDao dao;
 
+    @ModelAttribute("sexos")
+    public TipoSexo[] tipoSexo() {
+        return TipoSexo.values();
+    }
+
+    @GetMapping(value = "/sexo")
+    public ModelAndView listarPorSexo(@RequestParam(value = "tipoSexo") TipoSexo sexo) {
+
+        if (sexo == null) {
+            return new ModelAndView("redirect:/usuario/todos");
+        }
+        return new ModelAndView("/user/list", "usuarios", dao.getBySexo(sexo));
+    }
+
     @RequestMapping(value = "/todos", method = RequestMethod.GET)
     public ModelAndView listaTodos(ModelMap model) {
         model.addAttribute("usuarios", dao.getTodos());
@@ -28,7 +42,6 @@ public class UsuarioController {
 
     @GetMapping("/cadastro")
     public String cadastro(@ModelAttribute("usuario")Usuario usuario, ModelMap model) {
-        model.addAttribute("sexos", TipoSexo.values());
         return "/user/add";
     }
 
