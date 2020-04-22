@@ -1,5 +1,6 @@
 br\com\jordan\curso\domain\Usuario.class
 br\com\jordan\curso\web\controller\UsuarioController.class
+br\com\jordan\curso\config\SpringJpaConfig.class
 br\com\jordan\curso\dao\UsuarioDaoImpl.class
 br\com\jordan\curso\config\RootConfig.class
 br\com\jordan\curso\web\controller\WelcomeController.class
