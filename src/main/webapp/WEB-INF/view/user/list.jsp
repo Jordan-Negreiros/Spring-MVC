@@ -45,6 +45,18 @@
         </div>
     </div>
 
+    <div>
+        <spring:url value="/usuario/nome" var="act_nome"/>
+        <form action="${act_nome}" method="get">
+            <div class="form-group">
+                <label for="nome">Busca por Nome ou Sobrenome</label>
+                <input name="nome" id="nome" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Localizar</button>
+            </div>
+        </form>
+    </div>
     <hr>
     <div>
         <div class="${message == null ? '' : 'alert alert-success'}">
