@@ -31,7 +31,7 @@ public class UsuarioController {
         if (nome == null) {
             return new ModelAndView("redirect:/usuario/todos");
         }
-        return new ModelAndView("list.html", "usuarios", dao.getByNome(nome));
+        return new ModelAndView("list", "usuarios", dao.getByNome(nome));
     }
 
     @GetMapping(value = "/sexo")
@@ -40,42 +40,41 @@ public class UsuarioController {
         if (sexo == null) {
             return new ModelAndView("redirect:/usuario/todos");
         }
-        return new ModelAndView("list.html", "usuarios", dao.getBySexo(sexo));
+        return new ModelAndView("list", "usuarios", dao.getBySexo(sexo));
     }
 
     @RequestMapping(value = "/todos", method = RequestMethod.GET)
     public ModelAndView listaTodos(ModelMap model) {
         model.addAttribute("usuarios", dao.getTodos());
-        return new ModelAndView("list.html", model);
+        return new ModelAndView("list", model);
     }
 
     @GetMapping("/cadastro")
-    public String cadastro(@ModelAttribute("usuario")Usuario usuario, ModelMap model) {
-        return "add.html";
+    public ModelAndView cadastro(@ModelAttribute("usuario")Usuario usuario, ModelMap model) {
+        return new ModelAndView("add");
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("usuario")Usuario usuario, BindingResult result, RedirectAttributes attr) {
+    public ModelAndView save(@Valid @ModelAttribute("usuario")Usuario usuario, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return "add.html";
+            return new ModelAndView("add");
         }
         dao.salvar(usuario);
         attr.addFlashAttribute("message", "Usúario salvo com sucesso");
-        return "redirect:/usuario/todos";
+        return  new ModelAndView("redirect:/usuario/todos");
     }
 
     @GetMapping("/update/{id}")
     public ModelAndView preUpdate(@PathVariable("id") Long id, ModelMap model) {
-        Usuario usuario = dao.getId(id);
-        model.addAttribute("usuario", usuario);
-        return new ModelAndView("add.html", model);
+        model.addAttribute("usuario", dao.getId(id));
+        return new ModelAndView("add", model);
     }
 
     @PostMapping("/update")
     public ModelAndView update(@Valid @ModelAttribute("usuario") Usuario usuario,BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
-            new ModelAndView("add.html");
+            new ModelAndView("add");
         }
 
         dao.editar(usuario);

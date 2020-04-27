@@ -5,15 +5,25 @@
     <link type="text/css" rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}"/>
 </head>
 <body>
-<div class="container">
-    <h1>Lista de Usuários</h1>
-    <hr>
-    <div>
-
-        <a class="btn btn-primary" href="${cadastro }">Novo Usuário</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Meu Crud</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/intro-spring-mvc/usuario/todos">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/intro-spring-mvc/usuario/cadastro">Novo Usuário</a>
+            </li>
+        </ul>
     </div>
+</nav>
+<div class="container">
+    <center><h1>Lista de Usuários</h1></center>
     <hr>
-
     <div>
         <div>
             <form th:action="@{/usuario/sexo}" method="get">
@@ -43,8 +53,8 @@
     <hr>
     <div class="panel header-panel">
 
-        <div class="alert-heading">
-            <span class=""></span>
+        <div th:class="${#strings.isEmpty(message)} ? '' : 'alert alert-success'">
+            <span th:text="${#strings.isEmpty(message)} ? '' : ${message}"></span>
         </div>
 
         <table class="table table-striped table-condensed">
